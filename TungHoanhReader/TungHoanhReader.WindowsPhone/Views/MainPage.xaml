@@ -37,12 +37,22 @@
     <Page.BottomAppBar>
         <CommandBar IsEnabled="{Binding IsLoading,Converter={StaticResource InverseBooleanConverter}, Mode=OneWay}">
             <CommandBar.SecondaryCommands>
-                <AppBarButton Command="{Binding AboutCommand}"
-                              Label="About" />
+                <AppBarButton Command="{Binding SearchCommand}"
+                              Label="Tìm kiếm" />
+                <AppBarButton Command="{Binding GotoPageCommand}"
+                              Label="Nhảy Trang" />
             </CommandBar.SecondaryCommands>
-            <AppBarButton Icon="Setting"
-                          Label="Refresh"
-                          Command="{Binding LoadingTheLoaiCommand}"
+            <AppBarButton Icon="Back"
+                          Label="Trang Sau"
+                          Command="{Binding LoadingNextPageCommand}"
+                          />
+            <AppBarButton Icon="More"
+                          Label="Nhảy Trang"
+                          Command="{Binding GotoPageCommand}"
+                          />
+            <AppBarButton Icon="Forward"
+                          Label="Trang Trước"
+                          Command="{Binding LoadingPreviousCommand}"
                           />
         </CommandBar>
     </Page.BottomAppBar>
