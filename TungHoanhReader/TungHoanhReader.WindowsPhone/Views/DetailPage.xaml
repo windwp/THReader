@@ -1,0 +1,22 @@
+﻿<Page
+    x:Class="TungHoanhReader.Views.DetailPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TungHoanhReader.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prims="using:Microsoft.Practices.Prism.Mvvm"
+    xmlns:controls="using:TungHoanhReader.Controls"
+    mc:Ignorable="d">
+    <prims:ViewModelLocator.AutoWireViewModel>true</prims:ViewModelLocator.AutoWireViewModel>
+    <Grid Background="#FFD2D7E6">
+        <StackPanel>
+            <Grid Height="53">
+            	<TextBox  Text="Tên Truyện :" HorizontalAlignment="Right" Background="Transparent" FontSize="16" VerticalAlignment="Center" Margin="0,9,224,5"/>
+            	<TextBox Text="Thần Mộ" Background="Transparent" Foreground="Red" FontSize="26.667" Margin="181,0,0,0" TextAlignment="Right" BorderBrush="{x:Null}"/>
+            </Grid>
+            <RichTextBlock />
+        </StackPanel>
+        <ProgressRing x:Name="LoadingBar" Visibility="Collapsed" IsEnabled="False"  Height="4" HorizontalAlignment="Stretch" Style="{StaticResource TemplateLoadingBar}"/>
+    </Grid>
+</Page>

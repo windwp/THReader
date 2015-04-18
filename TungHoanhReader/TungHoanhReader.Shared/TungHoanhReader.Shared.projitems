@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>139dd8dd-6f86-4538-878f-46bb66de265b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>TungHoanhReader</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TruyenViewer.xaml.cs">
+      <DependentUpon>TruyenViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BooleanNegationConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BooleanToVisibilityConvertery.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\DateTimeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\IdToStatusEnumConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\InverseBooleanConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\InverseBooleanToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\MultiplyConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\PerCentConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\StringFormatConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\SubConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\TagTruyenToHienThiString.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\VisibleWhenFalseConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\VisibleWhenPhoneConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\VisibleWhenTrueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\VisibleWhenWindowsConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\TagTruyenModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SampleDataSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DialogService\DialogViewService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DialogService\IDialogService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\MainfestService\IManifestService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\MainfestService\ManifestHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\MainfestService\ManifestService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\NavigationService\INavigationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\PrimaryTileService\IPrimaryTileService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\PrimaryTileService\PrimaryTileHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\PrimaryTileService\PrimaryTileService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SecondaryTileService\ISecondaryTileService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SecondaryTileService\SecondaryTileHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SecondaryTileService\SecondaryTileService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ToastService\IToastService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ToastService\ToastHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ToastService\ToastService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\TruyenModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Splash.xaml.cs">
+      <DependentUpon>Splash.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\TruyenViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\HomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\Splash.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>
