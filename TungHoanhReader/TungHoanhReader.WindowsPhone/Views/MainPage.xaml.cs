@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
 using Expression.Blend.SampleData.SampleDataSource;
-using MetroLog;
 using Microsoft.Practices.Prism.Mvvm;
 using TungHoanhReader.ViewModels;
 
@@ -34,18 +21,13 @@ namespace TungHoanhReader.Views
         private SlideModel slideModel;
         double initialPosition;
         bool _viewMoved = false;
-        private StoreData storeData;
         private ObservableCollection<Item> ocTeams;
         public MainPage()
         {
             this.InitializeComponent();
-            // create a new instance of store data
-            storeData = new StoreData();
-            ocTeams = storeData.Collection;
-            teamsCVS.Source = ocTeams;
             InitLeftSideScreen();
-
-
+            Debug.WriteLine(this.DataContext);
+         
         }
 
         private void InitLeftSideScreen()
@@ -99,6 +81,28 @@ namespace TungHoanhReader.Views
 
         private void ItemListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var model = this.DataContext as MainPageViewModel;
+            if (model != null&&listviewTheLoai.SelectedItem!=null)
+            {
+                var truyen = listviewTheLoai.SelectedItem as TagTruyenModel;
+                if (truyen != null) model.TheLoaiDangXem = truyen.Value;
+                OpenClose_Left(null,null);
+                 model.LoadingTheLoaiCommand.Execute();
+            }
+        }
+
+        private void SiteTruyen_SelectonChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            var model = this.DataContext as MainPageViewModel;
+            if (model != null && listviewTheLoai.SelectedItem != null)
+            {
+              
+            }
         }
     }
 }

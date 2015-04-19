@@ -7,19 +7,25 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prims="using:Microsoft.Practices.Prism.Mvvm"
     xmlns:controls="using:TungHoanhReader.Controls"
+      
     xmlns:converters="using:TungHoanhReader.Converters"
+    xmlns:converter="using:TungHoanhReader.Converter"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     prims:ViewModelLocator.AutoWireViewModel="true"
-    mc:Ignorable="d">
+    mc:Ignorable="d" d:DataContext="{d:DesignData MainPageViewModel}"
+      
+      >
     <Page.Resources>
         <DataTemplate x:Key="ListTruyenDataTemplate">
             <controls:TruyenViewer />
         </DataTemplate>
         <Style x:Key="StoreFrontLVTileStyle" TargetType="ListViewItem">
             <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="Height" Value="80"/>
+            <Setter Property="Height" Value="60"/>
             <Setter Property="Width" Value="Auto"/>
             <Setter Property="Padding" Value="0"/>
-            <Setter Property="Margin" Value="5,5,8,8"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="VerticalContentAlignment" Value="Top"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -28,76 +34,102 @@
         <ItemsPanelTemplate x:Key="StoreFrontGridItemsPanelTemplate">
             <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical"/>
         </ItemsPanelTemplate>
-        <CollectionViewSource x:Name="teamsCVS"/>
-        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
-        <converters:TagTruyenToHienThiString x:Key="TagTruyenToHienThiStringConverter" />
-        <converters:VisibleWhenTrueConverter x:Key="VisibleWhenTrueConverter" />
+        <DataTemplate x:Key="ListTruyenHeaderTemplate" >
+            <controls:TruyenHeaderViewer/>
+        </DataTemplate>
     </Page.Resources>
 
     <Page.BottomAppBar>
         <CommandBar IsEnabled="{Binding IsLoading,Converter={StaticResource InverseBooleanConverter}, Mode=OneWay}">
             <CommandBar.SecondaryCommands>
-                <AppBarButton Command="{Binding SearchCommand}"
+                <AppBarButton Command="{Binding DisplaySearchPopUpCommand}"
                               Label="Tìm kiếm" />
-                <AppBarButton Command="{Binding GotoPageCommand}"
+                <AppBarButton Command="{Binding LoadingTheLoaiCommand}"
+                              Label="Tải lại trang" />
+                <AppBarButton Command="{Binding DisplayGotoPopUpCommand}"
                               Label="Nhảy Trang" />
             </CommandBar.SecondaryCommands>
             <AppBarButton Icon="Back"
                           Label="Trang Sau"
-                          Command="{Binding LoadingNextPageCommand}"
+                          Command="{Binding LoadingPreviousCommand}"
+                           CommandParameter="-1"
                           />
-            <AppBarButton Icon="More"
-                          Label="Nhảy Trang"
-                          Command="{Binding GotoPageCommand}"
+            <AppBarButton Icon="Find"
+                          Label="Tìm kiếm"
+                          Command="{Binding DisplaySearchPopUpCommand}"
+                            Visibility="{Binding IsSearch,Converter={StaticResource VisibleWhenFalseConverter}}"
+                          />
+            <AppBarButton Icon="Delete"
+                          Label="Tìm kiếm"
+                          Command="{Binding ClearSearchPageCommand}"
+                          Visibility="{Binding IsSearch,Converter={StaticResource VisibleWhenTrueConverter}}"
                           />
             <AppBarButton Icon="Forward"
                           Label="Trang Trước"
-                          Command="{Binding LoadingPreviousCommand}"
+                          Command="{Binding LoadingNextPageCommand}"
+                          CommandParameter="1"
                           />
         </CommandBar>
     </Page.BottomAppBar>
-    <Canvas x:Name="canvas" VerticalAlignment="Stretch">
-        <Canvas.Resources>
-            <Storyboard x:Name="moveAnimation">
-                <DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetProperty="(Canvas.Left)" Storyboard.TargetName="LayoutRoot" d:IsOptimized="True" />
-            </Storyboard>
-        </Canvas.Resources>
-        <Canvas  CacheMode="BitmapCache" x:Name="LayoutRoot"  VerticalAlignment="Stretch" Background="Transparent" Canvas.Left="-315" Height="{Binding Path=ScreenHeight,Mode=OneWay}">
-            <Grid  Width="320"  CacheMode="BitmapCache" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="{Binding  Path=ScreenHeight,Mode=OneWay}" MinHeight="500"  Canvas.Left="5" Canvas.Top="2">
-                <Border Background="#FF31363E" />
-                <TextBlock Text="Thể Loại" FontSize="25" Foreground="White" TextAlignment="Right" Margin="10,5,10,464" VerticalAlignment="Top"/>
-                <ListView ItemsSource="{Binding ListTheLoai}" Margin="0,51,0,0">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding  Value,Converter={StaticResource TagTruyenToHienThiStringConverter}}" HorizontalAlignment="Center" FontSize="18"/>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Canvas x:Name="canvas" VerticalAlignment="Stretch">
+            <Canvas.Resources>
+                <Storyboard x:Name="moveAnimation">
+                    <DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetProperty="(Canvas.Left)" Storyboard.TargetName="LayoutRoot" d:IsOptimized="True" />
+                </Storyboard>
+            </Canvas.Resources>
+            <Canvas  CacheMode="BitmapCache" x:Name="LayoutRoot"  VerticalAlignment="Stretch" Background="Transparent" Canvas.Left="-315" Height="{Binding Path=ScreenHeight,Mode=OneWay}">
+                <Grid Width="320" CacheMode="BitmapCache" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                   MinHeight="500"  Canvas.Left="5" Canvas.Top="2">
+                    <Border Background="#FF31363E" />
+                    <TextBlock Text="Thể Loại" FontSize="25" Foreground="White" TextAlignment="Right" Margin="10,5,10,464" VerticalAlignment="Top"/>
+                    <ListView x:Name="listviewTheLoai" ItemsSource="{Binding ListTheLoai}" Margin="0,51,0,0" SelectionChanged="ListView_SelectionChanged" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="20,20,5,5" Text="{Binding  Value,Converter={StaticResource TagTruyenToHienThiStringConverter}}" HorizontalAlignment="Center" FontSize="18"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
 
-                </ListView>
-            </Grid>
-            <Grid x:Name="grdCommands" CacheMode="BitmapCache" Grid.Column="1" Background="#FFCBD1E2" HorizontalAlignment="Stretch" Canvas.Left="320" Height="{Binding  Path=ScreenHeight,Mode=OneWay}" Width="{Binding Path=ScreenWidth,Mode=OneWay}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Stretch"    Background="#FF3B5998" Height="48">
-                    <Button Click="OpenClose_Left"   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" BorderBrush="Transparent" BorderThickness="0" MinWidth="49" MinHeight="50" Padding="0,-4,0,0">
-                        <Button.Template>
-                            <ControlTemplate>
-                                <Image Height="48" Source="ms-appx:///Assets/Align-justify.png" Stretch="Fill" Width="48"/>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
-                    <TextBlock Text="{Binding TheLoaiDangXem,Converter={StaticResource TagTruyenToHienThiStringConverter},Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="25" Padding="0,0,20,5"></TextBlock>
+                    </ListView>
                 </Grid>
-                <Grid VerticalAlignment="Top" Grid.Row="1">
-                    <Border Background="#FFCFD4E2" Margin="0,68,0,0" Grid.ColumnSpan="2"/>
-                    <ListView x:Name="lvTeams"   HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                              ItemsSource="{Binding DanhSachTruyen}" RenderTransformOrigin="0.5,0.5"
-                              ItemTemplate="{StaticResource ListTruyenDataTemplate}" />
+                <Grid x:Name="grdCommands" CacheMode="BitmapCache" Grid.Column="1" Background="#FFCBD1E2" HorizontalAlignment="Stretch" Canvas.Left="320" Height="{Binding  Path=ScreenHeight,Mode=OneWay}" Width="{Binding Path=ScreenWidth,Mode=OneWay}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0"  VerticalAlignment="Top" HorizontalAlignment="Stretch"    Background="#FF3B5998" Height="48">
+                        <Button Click="OpenClose_Left"   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" BorderBrush="Transparent" BorderThickness="0" MinWidth="49" MinHeight="50" Padding="0,-4,0,0">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Image Height="48" Source="ms-appx:///Assets/Align-justify.png" Stretch="Fill" Width="48"/>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <TextBlock Text="{Binding TheLoaiDangXem,Converter={StaticResource TagTruyenToHienThiStringConverter},Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="25" Padding="0,0,20,5"></TextBlock>
+                    </Grid>
+                    <Grid VerticalAlignment="Top" Grid.Row="1">
+                        <Border Background="#FFCFD4E2" Margin="0,68,0,0" Grid.ColumnSpan="2"/>
+                        <ListView HorizontalAlignment="Left" VerticalAlignment="Top"
+                              Width="{Binding ScreenWidth,Converter={StaticResource SubConverter},ConverterParameter=6}"
+                              ItemsSource="{Binding DanhSachTruyen}" 
+                              ItemTemplate="{StaticResource ListTruyenDataTemplate}" 
+                              ItemContainerStyle="{StaticResource StoreFrontLVTileStyle}" 
+                              HeaderTemplate="{StaticResource ListTruyenHeaderTemplate}"
+                              Height="{Binding ActualHeight, ElementName=page ,Converter={StaticResource SubConverter},ConverterParameter=160}" 
+                              ShowsScrollingPlaceholders="True"
+                              >
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="SelectionChanged">
+                                    <core:InvokeCommandAction Command="{Binding Path=NavigateChapterCommand}"/>
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </ListView>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </Canvas>
+            <ProgressRing Canvas.Left="{Binding ScreenWidth,Converter={StaticResource MultiplyConverter},ConverterParameter=0.45}" 
+                      Canvas.Top="{Binding ScreenHeight,Converter={StaticResource MultiplyConverter},ConverterParameter=0.45}"
+                   Visibility="{Binding IsLoading,Converter={StaticResource VisibleWhenTrueConverter}}" IsEnabled="{Binding IsLoading}"  IsActive="{Binding IsLoading}"  Style="{StaticResource TemplateLoadingBar}" />
         </Canvas>
-        <ProgressRing x:Name="LoadingBar" Visibility="{Binding IsLoading,Converter={StaticResource VisibleWhenTrueConverter}}" IsEnabled="{Binding IsLoadding}"  IsActive="{Binding IsLoadding}" Height="4" HorizontalAlignment="Stretch" />
-    </Canvas>
+    </Grid>
 </Page>
