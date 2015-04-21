@@ -1,13 +1,13 @@
 ﻿namespace TungHoanhReader.Services
 {
-    public enum Experiences { Main, Login, Appointment, Transfer, Settings, About, Privacy,
+    public enum AppPages { Setting, About,Main,
         Home,
-        Detail
+        Detail,Truyen
     }
 
     public interface INavigationService
     {
-        bool Navigate(Experiences experience, object param = null);
+        bool Navigate(AppPages experience, object param = null);
         void GoBack();
         bool CanGoBack { get; }
         void ClearHistory();
@@ -20,7 +20,7 @@
             this._navigationService = navigationService;
         }
 
-        public bool Navigate(Experiences experience, object param = null)
+        public bool Navigate(AppPages experience, object param = null)
         {
             return _navigationService.Navigate(experience.ToString(), param);
         }

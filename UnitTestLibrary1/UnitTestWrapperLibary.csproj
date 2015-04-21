@@ -137,9 +137,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TungHoanhReader.Wrapper\TungHoanhReader.Wrapper.csproj">
-      <Project>{1f04ac67-c3e1-4e98-963e-56637bbdadc0}</Project>
-      <Name>TungHoanhReader.Wrapper</Name>
+    <ProjectReference Include="..\TungHoanhReader\TungHoanhReader.Windows\TungHoanhReader.Windows.csproj">
+      <Project>{6cb8ff18-59d5-49d1-a331-bd5ea1e5b769}</Project>
+      <Name>TungHoanhReader.Windows</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">

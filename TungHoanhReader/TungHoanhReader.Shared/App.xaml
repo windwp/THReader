@@ -1,11 +1,12 @@
-﻿<prism:MvvmAppBase
+﻿
+<prism:MvvmAppBase
     x:Class="TungHoanhReader.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:TungHoanhReader"
     xmlns:prism="using:Microsoft.Practices.Prism.Mvvm"
-    
-    >
+    xmlns:converters="using:TungHoanhReader.Converters"
+    xmlns:converter="using:TungHoanhReader.Converter">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -13,7 +14,29 @@
                 <!--  include custom dictionaries  -->
                 <ResourceDictionary Source="Styles/Reader.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+            <converters:TagTruyenToHienThiString x:Key="TagTruyenToHienThiStringConverter" />
+            <converters:VisibleWhenTrueConverter x:Key="VisibleWhenTrueConverter" />
+            <converters:VisibleWhenFalseConverter x:Key="VisibleWhenFalseConverter" />
+            <converters:MultiplyConverter x:Key="MultiplyConverter" />
+            <converter:SubConverter x:Key="SubConverter" />
+            <x:Double x:Key="FontReadingSizeValue" >16</x:Double>
+            <SolidColorBrush x:Key="FontReadingColorValue">Black</SolidColorBrush>
+            <Style x:Key="BlueStyleButton" TargetType="Button">
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="10,0,0,0"/>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF5296B6" Offset="0"/>
+                            <GradientStop Color="#FF003D59" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+            <FontFamily x:Key="ThuPhapFont2">/Assets/vnithufap2.ttf#VNI-Thufap2</FontFamily>
+            <!--<FontFamily x:Key="ThuPhapFont">/Assets/vnithufap.ttf#VNI-HLThuPhap</FontFamily>-->
         </ResourceDictionary>
 
     </Application.Resources>

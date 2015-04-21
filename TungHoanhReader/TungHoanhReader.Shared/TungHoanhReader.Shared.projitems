@@ -15,6 +15,24 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ListBoxExtenders.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\DialogHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\StorageHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\TemplatedVisualTreeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\VisualTreeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\InputTextDialog.xaml.cs">
+      <DependentUpon>InputTextDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\MessageBox.xaml.cs">
+      <DependentUpon>MessageBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PhoneMemory.xaml.cs">
+      <DependentUpon>PhoneMemory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Toast.xaml.cs">
+      <DependentUpon>Toast.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TruyenHeaderViewer.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TruyenViewer.xaml.cs">
       <DependentUpon>TruyenViewer.xaml</DependentUpon>
     </Compile>
@@ -33,9 +51,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\VisibleWhenPhoneConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\VisibleWhenTrueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\VisibleWhenWindowsConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\RefreshTextEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TagTruyenModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\TruyenStorageData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UserSetting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleDataSource.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\DialogService\DialogViewService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DialogService\DialogService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DialogService\IDialogService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MainfestService\IManifestService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MainfestService\ManifestHelper.cs" />
@@ -47,29 +68,65 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\SecondaryTileService\ISecondaryTileService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SecondaryTileService\SecondaryTileHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SecondaryTileService\SecondaryTileService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SettingService\ISettingService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SettingService\SettingServices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ToastService\IToastService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ToastService\ToastHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ToastService\ToastService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SettingPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ThNavParamater.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\TruyenPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DetailPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainPageViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\TruyenModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\HomePage.xaml.cs">
-      <DependentUpon>HomePage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Splash.xaml.cs">
       <DependentUpon>Splash.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\IWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\LuongSonBacWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\TagTruyen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\TangThuVienWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\Truyen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\TruyenConvertWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\TungHoanhWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\WebTruyenWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\WebUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\WrapperCreator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\TruyenViewer.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\InputTextDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Views\HomePage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\MessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\PhoneMemory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\Toast.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\TruyenHeaderViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\TruyenViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\Splash.xaml">
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en-us\Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Wrapper\packages.config" />
   </ItemGroup>
 </Project>

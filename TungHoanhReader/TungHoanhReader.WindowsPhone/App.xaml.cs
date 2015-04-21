@@ -18,10 +18,10 @@ namespace TungHoanhReader
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
             var navigationService = _container.Resolve<INavigationService>();
-            navigationService.Navigate(Experiences.Main);
+            navigationService.Navigate(AppPages.Main);
             return Task.FromResult<object>(null);
         }
 
-
+        
     }
 }

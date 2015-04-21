@@ -12,6 +12,7 @@
     xmlns:converter="using:TungHoanhReader.Converter"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:common="using:TungHoanhReader.Common"
     prims:ViewModelLocator.AutoWireViewModel="true"
     mc:Ignorable="d" d:DataContext="{d:DesignData MainPageViewModel}"
       
@@ -78,12 +79,35 @@
                     <DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetProperty="(Canvas.Left)" Storyboard.TargetName="LayoutRoot" d:IsOptimized="True" />
                 </Storyboard>
             </Canvas.Resources>
-            <Canvas  CacheMode="BitmapCache" x:Name="LayoutRoot"  VerticalAlignment="Stretch" Background="Transparent" Canvas.Left="-315" Height="{Binding Path=ScreenHeight,Mode=OneWay}">
-                <Grid Width="320" CacheMode="BitmapCache" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                   MinHeight="500"  Canvas.Left="5" Canvas.Top="2">
+            <Canvas  CacheMode="BitmapCache" x:Name="LayoutRoot"  VerticalAlignment="Stretch" Background="Transparent" Canvas.Left="-330" Height="{Binding Path=ScreenHeight,Mode=OneWay,Converter={StaticResource SubConverter},ConverterParameter=-40}">
+                <Grid Width="330" CacheMode="BitmapCache" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                   MinHeight="600"  Canvas.Left="5" Canvas.Top="2">
                     <Border Background="#FF31363E" />
-                    <TextBlock Text="Thể Loại" FontSize="25" Foreground="White" TextAlignment="Right" Margin="10,5,10,464" VerticalAlignment="Top"/>
-                    <ListView x:Name="listviewTheLoai" ItemsSource="{Binding ListTheLoai}" Margin="0,51,0,0" SelectionChanged="ListView_SelectionChanged" >
+                    <TextBlock Text="Thể Loại" FontSize="25" Foreground="White" TextAlignment="Right" Margin="0,5,30,464" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="listviewSiteTruyen"  Margin="0,51,0,0" Grid.Row="1"  SelectionChanged="SiteTruyen_SelectonChanged" 
+                              Width="280" 
+                              >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Display}"></TextBlock>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="GotFocus">
+                                <core:ChangePropertyAction PropertyName="Margin"  TargetObject="{Binding ElementName=listviewTheLoai}" Value="0,200,0,0"></core:ChangePropertyAction>
+                            </core:EventTriggerBehavior>
+                            <core:EventTriggerBehavior EventName="LostFocus">
+                                <core:ChangePropertyAction PropertyName="Margin"  TargetObject="{Binding ElementName=listviewTheLoai}" Value="0,100,0,0"></core:ChangePropertyAction>
+                            </core:EventTriggerBehavior>
+                            <core:EventTriggerBehavior EventName="SelectionChanged">
+                                <core:ChangePropertyAction PropertyName="Margin"  TargetObject="{Binding ElementName=listviewTheLoai}" Value="0,100,0,0"></core:ChangePropertyAction>
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </ComboBox>
+                    <ListView x:Name="listviewTheLoai" ItemsSource="{Binding ListTheLoai}" Margin="0,100,0,0" SelectionChanged="ListView_SelectionChanged" 
+                                Height="{Binding ActualHeight, ElementName=page ,Converter={StaticResource SubConverter},ConverterParameter=200}" 
+                              Width="300"
+                            >
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Margin="20,20,5,5" Text="{Binding  Value,Converter={StaticResource TagTruyenToHienThiStringConverter}}" HorizontalAlignment="Center" FontSize="18"/>
@@ -92,7 +116,7 @@
 
                     </ListView>
                 </Grid>
-                <Grid x:Name="grdCommands" CacheMode="BitmapCache" Grid.Column="1" Background="#FFCBD1E2" HorizontalAlignment="Stretch" Canvas.Left="320" Height="{Binding  Path=ScreenHeight,Mode=OneWay}" Width="{Binding Path=ScreenWidth,Mode=OneWay}">
+                <Grid x:Name="grdCommands" CacheMode="BitmapCache" Grid.Column="1" Background="#FFCBD1E2" HorizontalAlignment="Stretch" Canvas.Left="330" Height="{Binding  Path=ScreenHeight,Mode=OneWay}" Width="{Binding Path=ScreenWidth,Mode=OneWay}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
@@ -105,11 +129,12 @@
                                 </ControlTemplate>
                             </Button.Template>
                         </Button>
+                        <!--<Button Content="Test" Click="ListViewRefresh_OnLoad" Margin="55,0,0,0"></Button>-->
                         <TextBlock Text="{Binding TheLoaiDangXem,Converter={StaticResource TagTruyenToHienThiStringConverter},Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="25" Padding="0,0,20,5"></TextBlock>
                     </Grid>
                     <Grid VerticalAlignment="Top" Grid.Row="1">
                         <Border Background="#FFCFD4E2" Margin="0,68,0,0" Grid.ColumnSpan="2"/>
-                        <ListView HorizontalAlignment="Left" VerticalAlignment="Top"
+                        <ListView x:Name="listviewTruyen" HorizontalAlignment="Left" VerticalAlignment="Top"
                               Width="{Binding ScreenWidth,Converter={StaticResource SubConverter},ConverterParameter=6}"
                               ItemsSource="{Binding DanhSachTruyen}" 
                               ItemTemplate="{StaticResource ListTruyenDataTemplate}" 
@@ -117,12 +142,13 @@
                               HeaderTemplate="{StaticResource ListTruyenHeaderTemplate}"
                               Height="{Binding ActualHeight, ElementName=page ,Converter={StaticResource SubConverter},ConverterParameter=160}" 
                               ShowsScrollingPlaceholders="True"
-                              >
+                                 Loaded="ListViewRefresh_OnLoad">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="SelectionChanged">
-                                    <core:InvokeCommandAction Command="{Binding Path=NavigateChapterCommand}"/>
+                                    <core:InvokeCommandAction Command="{Binding Path=NavigateChapterCommand}" CommandParameter="{Binding ElementName=listviewTruyen}"/>
                                 </core:EventTriggerBehavior>
                             </interactivity:Interaction.Behaviors>
+
                         </ListView>
                     </Grid>
                 </Grid>

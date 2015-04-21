@@ -2,16 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
-namespace Expression.Blend.SampleData.SampleDataSource
+namespace TungHoanhReader
 {
-    using System;
-    using Windows.UI.Xaml.Data;
-    using Windows.UI.Xaml.Media;
-    using Windows.UI.Xaml.Media.Imaging;
-
     // To significantly reduce the sample data footprint in your production application, you can set
     // the DISABLE_SAMPLE_DATA conditional compilation constant and disable sample data at runtime.
 #if DISABLE_SAMPLE_DATA

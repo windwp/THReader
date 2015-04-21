@@ -1,5 +1,4 @@
 ﻿using Windows.UI.Xaml.Controls;
-using Expression.Blend.SampleData.SampleDataSource;
 
 namespace TungHoanhReader.Controls
 {
@@ -22,7 +21,7 @@ namespace TungHoanhReader.Controls
             _item = item;
             titleTextBlock.Opacity = 0;
             categoryTextBlock.Opacity = 0;
-            image.Opacity = 0;
+            //image.Opacity = 0;
         }
 
         /// <summary>
@@ -51,8 +50,8 @@ namespace TungHoanhReader.Controls
         /// </summary>
         public void ShowImage()
         {
-            image.Source = _item.Image;
-            image.Opacity = 1;            
+            //image.Source = _item.Image;
+            //image.Opacity = 1;            
         }
 
         /// <summary>
@@ -63,7 +62,7 @@ namespace TungHoanhReader.Controls
             _item = null;
             titleTextBlock.ClearValue(TextBlock.TextProperty);
             categoryTextBlock.ClearValue(TextBlock.TextProperty);
-            image.ClearValue(Image.SourceProperty);
+           // image.ClearValue(Image.SourceProperty);
         }
 
         private Item _item;

@@ -13,6 +13,11 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Practices.Prism.Mvvm;
+using Microsoft.Practices.Prism.PubSubEvents;
+using Microsoft.Practices.Unity;
+using TungHoanhReader.Common;
+using TungHoanhReader.Models;
+using TungHoanhReader.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -26,9 +31,15 @@ namespace TungHoanhReader.Views
         public DetailPage()
         {
             this.InitializeComponent();
-            LoadingBar.IsActive = true;
-            LoadingBar.Visibility = Visibility.Visible;
+            var model = DataContext as DetailPageViewModel;
+            if (model != null)
+            {
+                model.TextScrollViewer = TextScrollViewer;
+            }
+
         }
+
+       
 
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
@@ -38,5 +49,12 @@ namespace TungHoanhReader.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
         }
+
+        private void TextBlock_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+
+        }
     }
+
+
 }

@@ -1,0 +1,127 @@
+﻿<Page
+    x:Class="TungHoanhReader.Views.TruyenPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TungHoanhReader.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prims="using:Microsoft.Practices.Prism.Mvvm"
+    xmlns:controls="using:TungHoanhReader.Controls"
+    xmlns:converter="using:TungHoanhReader.Converter"
+    xmlns:converters="using:TungHoanhReader.Converters"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    mc:Ignorable="d" d:DataContext="{d:DesignData ChapterListViewModel}"
+    prims:ViewModelLocator.AutoWireViewModel="true">
+    <Page.Resources>
+    </Page.Resources>
+    <Page.BottomAppBar>
+        <CommandBar IsEnabled="{Binding IsLoading,Converter={StaticResource InverseBooleanConverter}, Mode=OneWay}">
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Command="{Binding AddFavoriteCommand}"
+                              Label="Thêm vào mục yêu thích" Visibility="{Binding IsFavorite,Converter={StaticResource VisibleWhenFalseConverter}}"  />
+                <AppBarButton Command="{Binding RemoveFavoriteCommand}"
+                              Label="Xóa khỏi mục yêu thích" Visibility="{Binding IsFavorite,Converter={StaticResource VisibleWhenTrueConverter}}"  />
+                <AppBarButton Command="{Binding LoadBeginChapterCommand}"
+                              Label="Tải các  chương đầu tiên" Visibility="{Binding IsDiplayLoadMoreChapter,Converter={StaticResource VisibleWhenTrueConverter}}" />
+                <AppBarButton Command="{Binding LoadEndChapterCommand}"
+                             Label="Tải các chương cuối cùng"  Visibility="{Binding IsDiplayLoadMoreChapter,Converter={StaticResource VisibleWhenTrueConverter}}" />
+            </CommandBar.SecondaryCommands>
+            <AppBarButton Icon="More"
+                          Label="Tải chương kế tiếp"
+                          Command="{Binding LoadNextListChapterCommand}"
+                           CommandParameter="6"
+                          />
+        </CommandBar>
+    </Page.BottomAppBar>
+    <Grid Background="#FFCBD1E2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+    
+        <Grid  Grid.Row="1">
+            <StackPanel Orientation="Vertical">
+                <ScrollViewer Height="170" Visibility="{Binding IsDiplayLoadMoreChapter,Converter={StaticResource VisibleWhenFalseConverter}}">
+                    <TextBlock Text="{Binding Truyen.Description}" TextWrapping="Wrap" Foreground="Black" FontSize="16" Width="372"/>
+                </ScrollViewer>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,-7,0,5" >
+                    <Button Command="{Binding ReadFirstChapterCommand}" Style="{StaticResource BlueStyleButton}">
+					
+					 <StackPanel Orientation="Horizontal" >
+							<Image Source="ms-appx:///Assets/Ribbon.png" Width="30" Height="33"/>
+                    		<TextBlock Text="Đầu tiên" Foreground="White" VerticalAlignment="Center"/>
+                    	</StackPanel>
+					</Button>
+                    <Button Command="{Binding ReadLastChapterCommand}" Style="{StaticResource BlueStyleButton}">
+					 <StackPanel Orientation="Horizontal" >
+							<Image Source="ms-appx:///Assets/Ribbon.png" Width="30" Height="33"/>
+							
+                    		<TextBlock Text="Mới nhất" Foreground="White" VerticalAlignment="Center"/>
+                    	</StackPanel>
+					</Button>
+                    <Button  Command="{Binding ReadNewChapterCommand}" Style="{StaticResource BlueStyleButton}" >
+					 <StackPanel Orientation="Horizontal" >
+							<Image Source="ms-appx:///Assets/Ribbon.png" Width="30" Height="33"/>
+							
+                    		<TextBlock Text="Mới đọc" Foreground="White" VerticalAlignment="Center"/>
+                    	</StackPanel>
+                        </Button>
+                </StackPanel>
+            </StackPanel>
+
+        </Grid>
+        <Grid Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Stretch"    Background="#FF3B5998" Height="48">
+            <TextBlock Text="{Binding Truyen.Title}" HorizontalAlignment="Right" VerticalAlignment="Center" FontFamily="{StaticResource ThuPhapFont2}" FontSize="23" Margin="0,18,30,0"  MinWidth="20"></TextBlock>
+        </Grid>
+        <Grid x:Name="listChuongGrid" VerticalAlignment="Top" Grid.Row="2">
+            <!--<interactivity:Interaction.Behaviors>
+                <core:DataTriggerBehavior Binding="{Binding IsDiplayLoadMoreChapter}" ComparisonCondition="Equal" Value="True"> 
+                    <core:ChangePropertyAction TargetObject="{Binding ElementName=listChuongGrid}" PropertyName="Grid.Row" Value="1"/>
+                </core:DataTriggerBehavior>
+                </interactivity:Interaction.Behaviors>-->
+                <Border Background="#FFCFD4E2" Margin="0,68,0,0" Grid.ColumnSpan="2"/>
+            <ListView  HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                              ItemsSource="{Binding Chapters}" RenderTransformOrigin="0.5,0.5"
+                             >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid HorizontalAlignment="Left"  VerticalAlignment="Stretch" Background="Transparent">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding SoThuTu}"  TextWrapping="Wrap" Foreground="Black" FontSize="14.667" FontWeight="Light"  MaxHeight="25" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                <TextBlock Grid.Column="1"  Text="{Binding TenChuong}" TextWrapping="Wrap" Foreground="Black" FontSize="16.667" FontWeight="Bold"  MaxHeight="20" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid HorizontalAlignment="Left"  VerticalAlignment="Stretch" Background="Transparent">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Thứ tự" TextWrapping="Wrap" Foreground="Black" FontSize="14.667" FontWeight="Light"  MaxHeight="25" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                <TextBlock Grid.Column="1"  Text="Tiêu đề chương" TextWrapping="Wrap" Foreground="Black" FontSize="16.667" FontWeight="Bold"  MaxHeight="20" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.HeaderTemplate>
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="SelectionChanged">
+                        <core:InvokeCommandAction Command="{Binding Path=NavigateToChapterCommand}"/>
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+              
+            </ListView>
+        </Grid>
+        <ProgressRing  Grid.RowSpan="3" Grid.Row="0"
+                  Visibility="{Binding IsLoading,Converter={StaticResource VisibleWhenTrueConverter},Mode=OneWay}" IsEnabled="{Binding IsLoading}"  IsActive="{Binding IsLoading}"  Style="{StaticResource TemplateLoadingBar}" />
+    </Grid>
+</Page>

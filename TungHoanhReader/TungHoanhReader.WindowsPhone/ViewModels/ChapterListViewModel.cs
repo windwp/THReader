@@ -7,7 +7,7 @@ using Microsoft.Practices.Prism.Mvvm;
 
 namespace TungHoanhReader.ViewModels
 {
-    public partial class TruyenModel:ViewModel
+    internal sealed partial class TruyenPageViewModel:ViewModel
     {
     }
 }
